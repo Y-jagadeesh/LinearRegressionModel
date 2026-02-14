@@ -3,19 +3,27 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 
-
+#Reading the data
 df = pd.read_csv("areaprice.csv")
 #it is used to remove any hidden spaces
 df.columns = df.columns.str.strip()
 print(df)
 
+#Training the  model
+reg = LinearRegression()
+reg.fit(df[['area']],df['price'])
+
+#plot scatter 
 plt.xlabel("area(sq.ft)")
 plt.ylabel("price(Rupees)")
 plt.scatter(df['area'],df['price'],color = "red",marker = "+")
-plt.savefig('LR.png')
 
-reg = LinearRegression()
-reg.fit(df[['area']],df['price'])
+#plot regression line
+plt.plot(df['area'],reg.predict(df[['area']]),color = "blue")
+plt.savefig("regression.png")
+plt.show()
+
+#predictions
 print(reg.predict([[2650]]))
 print(reg.coef_)
 print(reg.intercept_)
